@@ -1,0 +1,103 @@
+<div class="container">
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    <mat-spinner></mat-spinner>
+    <p>Loading showtimes...</p>
+  </div>
+
+  <!-- Movie Header -->
+  <div *ngIf="movie" class="movie-header">
+    <button mat-button routerLink="/movie/{{movieId}}">
+      <mat-icon>arrow_back</mat-icon> Back
+    </button>
+    <div class="movie-info">
+      <img [src]="movie.posterUrl" [alt]="movie.title" class="poster">
+      <div>
+        <h1>{{movie.title}}</h1>
+        <p class="meta">{{movie.duration}} min • {{movie.rating}}⭐ • {{movie.language}}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <mat-card class="filters-card">
+    <div class="filters">
+      <!-- Date -->
+      <mat-form-field>
+        <mat-label>Date</mat-label>
+        <mat-select [(value)]="selectedDate" (selectionChange)="onFilterChange()">
+          <mat-option *ngFor="let date of dates" [value]="date">
+            {{formatTime(date)}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Theatre -->
+      <mat-form-field>
+        <mat-label>Theatre</mat-label>
+        <mat-select [(value)]="selectedTheatre" (selectionChange)="onFilterChange()">
+          <mat-option value="all">All Theatres</mat-option>
+          <mat-option *ngFor="let theatre of theatres" [value]="theatre.id">
+            {{theatre.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Format -->
+      <mat-form-field>
+        <mat-label>Format</mat-label>
+        <mat-select [(value)]="selectedFormat" (selectionChange)="onFilterChange()">
+          <mat-option value="all">All Formats</mat-option>
+          <mat-option *ngFor="let format of getFormats()" [value]="format">
+            {{format}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <!-- Results -->
+  <div *ngIf="!loading">
+    <h2>{{filteredShowtimes.length}} Showtimes Available</h2>
+    
+    <!-- No Results -->
+    <div *ngIf="filteredShowtimes.length === 0" class="no-results">
+      <mat-icon>theaters</mat-icon>
+      <p>No showtimes found for selected filters</p>
+    </div>
+
+    <!-- Showtimes Grid -->
+    <div class="showtimes-grid">
+      <mat-card *ngFor="let showtime of filteredShowtimes" class="showtime-card">
+        <mat-card-content>
+          <div class="showtime-header">
+            <h3>{{getTheatreName(showtime.theatreId)}}</h3>
+            <span class="format">{{showtime.format}}</span>
+          </div>
+          
+          <div class="showtime-details">
+            <div class="time">
+              <mat-icon>schedule</mat-icon>
+              <div>
+                <strong>{{formatTime(showtime.startTime)}}</strong>
+                <small>to {{formatTime(showtime.endTime)}}</small>
+              </div>
+            </div>
+            
+            <div class="info">
+              <span><mat-icon>tv</mat-icon> Screen {{showtime.screenNumber}}</span>
+              <span><mat-icon>event_seat</mat-icon> {{showtime.availableSeats}} seats left</span>
+              <span><mat-icon>attach_money</mat-icon> ${{showtime.price}}</span>
+            </div>
+          </div>
+        </mat-card-content>
+        
+        <mat-card-actions>
+          <button mat-raised-button color="accent" (click)="bookShowtime(showtime.id)">
+            <mat-icon>event_seat</mat-icon> Select Seats
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

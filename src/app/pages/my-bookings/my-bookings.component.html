@@ -1,0 +1,96 @@
+<div class="my-bookings-container">
+  <!-- Header -->
+  <div class="page-header">
+    <h1>My Bookings</h1>
+    <p>View and manage your movie ticket bookings</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading your bookings...</p>
+  </div>
+
+  <!-- No Bookings -->
+  <div *ngIf="!loading && noBookings" class="no-bookings">
+    <mat-icon class="empty-icon">confirmation_number</mat-icon>
+    <h3>No Bookings Yet</h3>
+    <p>You haven't made any bookings yet.</p>
+    <button mat-raised-button color="primary" routerLink="/movies">
+      <mat-icon>movie</mat-icon>
+      Browse Movies
+    </button>
+  </div>
+
+  <!-- Bookings List -->
+  <div *ngIf="!loading && !noBookings" class="bookings-list">
+    <mat-card *ngFor="let booking of bookings" class="booking-card">
+      <mat-card-header>
+        <div class="booking-header">
+          <div class="booking-code">
+            <mat-icon>confirmation_number</mat-icon>
+            <span>Booking #{{booking.bookingCode}}</span>
+          </div>
+          <div class="booking-status" [class]="booking.paymentStatus">
+            {{booking.paymentStatus | titlecase}}
+          </div>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="booking-details">
+          <!-- Movie Info -->
+          <div class="detail-section">
+            <h3><mat-icon>movie</mat-icon> Movie</h3>
+            <p class="movie-title">{{booking.movieTitle || 'Movie Title'}}</p>
+          </div>
+
+          <!-- Theatre Info -->
+          <div class="detail-section">
+            <h3><mat-icon>theaters</mat-icon> Theatre</h3>
+            <p>{{booking.theatreName || 'Theatre Name'}}</p>
+          </div>
+
+          <!-- Showtime Info -->
+          <div class="detail-section">
+            <h3><mat-icon>schedule</mat-icon> Showtime</h3>
+            <p>{{formatDate(booking.showtimeDate || booking.bookingDate)}}</p>
+          </div>
+
+          <!-- Seats Info -->
+          <div class="detail-section">
+            <h3><mat-icon>event_seat</mat-icon> Seats</h3>
+            <div class="seats-container">
+              <span *ngFor="let seat of booking.seats" class="seat-badge">
+                {{seat.id}}
+              </span>
+            </div>
+          </div>
+
+          <!-- Price Info -->
+          <div class="detail-section">
+            <h3><mat-icon>payments</mat-icon> Amount</h3>
+            <p class="booking-amount">${{booking.totalAmount.toFixed(2)}}</p>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-divider></mat-divider>
+
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="printTicket(booking)">
+          <mat-icon>print</mat-icon>
+          Print Ticket
+        </button>
+        <button mat-button color="warn" (click)="cancelBooking(booking.id)">
+          <mat-icon>cancel</mat-icon>
+          Cancel Booking
+        </button>
+        <button mat-button routerLink="/movies">
+          <mat-icon>replay</mat-icon>
+          Book Again
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

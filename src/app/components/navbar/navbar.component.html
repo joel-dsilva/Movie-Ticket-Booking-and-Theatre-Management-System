@@ -1,0 +1,28 @@
+<mat-toolbar color="primary" class="navbar">
+  <!-- Logo -->
+  <div class="brand" routerLink="/">
+    <mat-icon>movie</mat-icon>
+    <span>CineBook</span>
+  </div>
+
+  <!-- Navigation without badges -->
+  <div class="nav-items">
+    <a *ngFor="let item of navItems" 
+       mat-button 
+       [routerLink]="item.path"
+       routerLinkActive="active">
+      <mat-icon>{{item.icon}}</mat-icon>
+      {{item.label}}
+    </a>
+  </div>
+
+  <span class="spacer"></span>
+
+  <!-- User Section -->
+  <div class="user-section">
+    <button mat-raised-button color="accent" (click)="toggleLogin()">
+      <mat-icon>login</mat-icon>
+      {{isLoggedIn ? 'Logout' : 'Login'}}
+    </button>
+  </div>
+</mat-toolbar>

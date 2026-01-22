@@ -1,0 +1,135 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">Experience Movies Like Never Before</h1>
+      <p class="hero-subtitle">Book tickets for the latest blockbusters in premium theatres</p>
+      <button mat-raised-button color="primary" routerLink="/movies" class="cta-button">
+        <mat-icon>local_movies</mat-icon>
+        Browse Movies
+      </button>
+    </div>
+  </section>
+
+  <!-- Featured Movies -->
+  <section class="featured-section" *ngIf="featuredMovies.length > 0">
+    <h2 class="section-title">Featured Today</h2>
+    <div class="featured-movies-grid">
+      <mat-card *ngFor="let movie of featuredMovies" class="featured-movie-card">
+        <img mat-card-image [src]="movie.posterUrl" [alt]="movie.title" class="featured-poster">
+        <mat-card-content>
+          <h3>{{movie.title}}</h3>
+          <div class="movie-meta">
+            <span class="rating">
+              <mat-icon class="star-icon">star</mat-icon>
+              {{movie.rating}}
+            </span>
+            <span class="duration">{{formatDuration(movie.duration)}}</span>
+          </div>
+          <p class="description">{{movie.description | slice:0:100}}...</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="primary" [routerLink]="['/movie', movie.id]">
+            Details
+          </button>
+          <button mat-raised-button color="accent" [routerLink]="['/movie', movie.id, 'showtimes']">
+            Book Now
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Now Showing -->
+  <section class="now-showing-section">
+    <div class="section-header">
+      <h2 class="section-title">Now Showing</h2>
+      <a routerLink="/movies" class="view-all">View All →</a>
+    </div>
+    
+    <div class="movies-grid">
+      <mat-card *ngFor="let movie of nowShowingMovies" class="movie-card">
+        <div class="movie-poster">
+          <img [src]="movie.posterUrl" [alt]="movie.title">
+          <div class="movie-overlay">
+            <button mat-icon-button color="primary" [routerLink]="['/movie', movie.id]">
+              <mat-icon>info</mat-icon>
+            </button>
+            <button mat-raised-button color="accent" [routerLink]="['/movie', movie.id, 'showtimes']">
+              Book Tickets
+            </button>
+          </div>
+        </div>
+        <mat-card-content>
+          <h3>{{movie.title}}</h3>
+          <div class="movie-info">
+            <span class="genre">{{getGenresString(movie.genre)}}</span>
+            <div class="rating-duration">
+              <span class="rating">
+                <mat-icon class="star-icon">star</mat-icon>
+                {{movie.rating}}
+              </span>
+              <span class="duration">{{formatDuration(movie.duration)}}</span>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Coming Soon -->
+  <section class="coming-soon-section" *ngIf="comingSoonMovies.length > 0">
+    <h2 class="section-title">Coming Soon</h2>
+    <div class="coming-soon-grid">
+      <mat-card *ngFor="let movie of comingSoonMovies" class="coming-soon-card">
+        <img [src]="movie.posterUrl" [alt]="movie.title" class="coming-soon-poster">
+        <mat-card-content>
+          <h3>{{movie.title}}</h3>
+          <p class="release-date">Releasing {{movie.releaseDate | date:'MMM d, yyyy'}}</p>
+          <span class="genre-tag">{{movie.genre[0]}}</span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Quick Booking -->
+  <section class="quick-booking-section">
+    <mat-card class="booking-card">
+      <mat-card-header>
+        <mat-card-title>Quick Booking</mat-card-title>
+        <mat-card-subtitle>Find and book tickets in 3 easy steps</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="steps-container">
+          <div class="step">
+            <div class="step-icon">
+              <mat-icon>movie</mat-icon>
+            </div>
+            <h4>Choose Movie</h4>
+            <p>Browse our collection of latest movies</p>
+          </div>
+          <div class="step">
+            <div class="step-icon">
+              <mat-icon>schedule</mat-icon>
+            </div>
+            <h4>Select Showtime</h4>
+            <p>Pick date, time and theatre</p>
+          </div>
+          <div class="step">
+            <div class="step-icon">
+              <mat-icon>event_seat</mat-icon>
+            </div>
+            <h4>Book Seats</h4>
+            <p>Choose your preferred seats and confirm</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading movies...</p>
+  </div>
+</div>

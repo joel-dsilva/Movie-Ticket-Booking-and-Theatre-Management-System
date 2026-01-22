@@ -1,0 +1,71 @@
+<div class="container" *ngIf="showtime">
+  <!-- Header -->
+  <div class="header">
+    <button mat-button routerLink="..">
+      <mat-icon>arrow_back</mat-icon> Back
+    </button>
+    <h1>Select Seats</h1>
+    <p>{{showtimeId}} • Screen {{showtime.screenNumber}} • {{showtime.format}}</p>
+  </div>
+
+  <!-- Screen -->
+  <div class="screen">
+    <div class="screen-label">SCREEN THIS WAY</div>
+  </div>
+
+  <!-- Seats Layout -->
+  <div class="seats-container">
+    <div class="seat-layout">
+      <div *ngFor="let row of seats; let i = index" class="seat-row">
+        <div class="row-label">{{rows[i]}}</div>
+        <div class="seats">
+          <button *ngFor="let seat of row" 
+                  [class]="getSeatClass(seat)"
+                  [disabled]="seat.status === 'booked'"
+                  (click)="toggleSeat(seat)">
+            <span class="seat-number">{{seat.number}}</span>
+            <span *ngIf="seat.status === 'selected'" class="seat-price">
+              ${{seat.price}}
+            </span>
+          </button>
+        </div>
+        <div class="row-label">{{rows[i]}}</div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item" *ngFor="let type of ['available', 'selected', 'booked', 'premium', 'recliner']">
+        <div class="seat-sample" [class]="type"></div>
+        <span>{{type | titlecase}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selected Summary -->
+  <mat-card class="summary-card" *ngIf="selectedSeats.length > 0">
+    <mat-card-content>
+      <h3>Selected Seats ({{selectedSeats.length}})</h3>
+      <div class="selected-seats">
+        <span *ngFor="let seat of selectedSeats" class="seat-tag">
+          {{seat.id}} - ${{seat.price}}
+        </span>
+      </div>
+      <div class="total">
+        <strong>Total:</strong>
+        <span class="price">${{totalPrice.toFixed(2)}}</span>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" (click)="proceedToBooking()">
+        <mat-icon>arrow_forward</mat-icon> Proceed to Booking
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <!-- No Selection -->
+  <div *ngIf="selectedSeats.length === 0" class="hint">
+    <mat-icon>info</mat-icon>
+    <p>Click on seats to select. Selected seats will be highlighted in green.</p>
+  </div>
+</div>

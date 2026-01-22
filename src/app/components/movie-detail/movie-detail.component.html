@@ -1,0 +1,81 @@
+<div class="movie-detail-container">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading movie details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !loading" class="error-state">
+    <mat-icon class="error-icon">error_outline</mat-icon>
+    <h3>Movie Not Found</h3>
+    <p>The movie you're looking for doesn't exist or has been removed.</p>
+    <button mat-raised-button color="primary" routerLink="/movies">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Movies
+    </button>
+  </div>
+
+  <!-- Movie Content -->
+  <div *ngIf="movie && !loading" class="movie-content">
+    <!-- ... other movie content ... -->
+
+    <mat-tab-group class="movie-tabs">
+      <!-- Description Tab -->
+      <mat-tab label="Description">
+        <div class="tab-content">
+          <h3>Storyline</h3>
+          <p class="description">{{movie.description}}</p>
+        </div>
+      </mat-tab>
+
+      <!-- Showtimes Tab -->
+      <mat-tab label="Showtimes">
+        <div class="tab-content">
+          <!-- ... date and theatre selection ... -->
+
+          <!-- Showtimes List -->
+          <div *ngIf="selectedTheatreId" class="showtimes-list">
+            <h3>Available Showtimes</h3>
+            
+            <div class="showtimes-grid">
+              <mat-card *ngFor="let showtime of getShowtimesForTheatre(selectedTheatreId)" 
+                       class="showtime-card">
+                <mat-card-content>
+                  <div class="showtime-info">
+                    <!-- Time Section -->
+                    <div class="time-section">
+                      <div class="time">{{formatTime(showtime.startTime)}}</div>
+                      <div class="duration">to {{formatTime(showtime.endTime)}}</div>
+                    </div>
+                    
+                    <!-- Details Section -->
+                    <div class="details-section">
+                      <div class="screen">Screen {{showtime.screenNumber}}</div>
+                      <div class="format">{{showtime.format}}</div>
+                      <div class="seats">
+                        <mat-icon>event_seat</mat-icon>
+                        {{showtime.availableSeats}}/{{showtime.totalSeats}} seats
+                      </div>
+                    </div>
+                    
+                    <!-- Price Section - CORRECTED -->
+                    <div class="price-section">
+                      <div class="price">${{showtime.price}}</div>
+                      <button 
+                        mat-raised-button 
+                        color="accent"
+                        (click)="bookShowtime(showtime.id)">
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

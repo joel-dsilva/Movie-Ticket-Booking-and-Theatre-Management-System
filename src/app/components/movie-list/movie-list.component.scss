@@ -1,0 +1,342 @@
+.movie-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+  }
+
+  .filters-card {
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+
+    .filters-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+
+      .search-field {
+        grid-column: 1 / -1;
+      }
+
+      mat-form-field {
+        width: 100%;
+      }
+
+      .clear-filters-btn {
+        align-self: center;
+        height: 56px;
+
+        mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+
+  .results-info {
+    margin-bottom: 20px;
+    text-align: right;
+
+    p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+  }
+
+  .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .movie-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+
+      .card-overlay {
+        opacity: 1;
+      }
+
+      .movie-poster {
+        transform: scale(1.05);
+      }
+    }
+
+    .card-image {
+      position: relative;
+      height: 350px;
+      overflow: hidden;
+
+      .movie-poster {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .card-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+
+        .detail-btn {
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(5px);
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.3);
+          }
+        }
+
+        .book-btn {
+          min-width: 160px;
+        }
+      }
+
+      .rating-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 152, 0, 0.95);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: bold;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+        mat-icon {
+          font-size: 18px;
+          height: 18px;
+          width: 18px;
+        }
+      }
+    }
+
+    mat-card-content {
+      flex: 1;
+      padding: 20px;
+
+      .movie-title {
+        font-size: 1.2rem;
+        color: #333;
+        margin: 0 0 10px;
+        line-height: 1.3;
+      }
+
+      .movie-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        color: #666;
+        font-size: 0.9rem;
+
+        .duration, .language {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+
+          mat-icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+
+      .genres-container {
+        margin-bottom: 15px;
+
+        mat-chip {
+          font-size: 0.8rem;
+          padding: 4px 10px;
+          height: 24px;
+          margin: 2px;
+        }
+      }
+
+      .cast {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+        line-height: 1.4;
+
+        strong {
+          color: #333;
+        }
+      }
+
+      .description {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin: 0;
+      }
+    }
+
+    mat-card-actions {
+      padding: 0 20px 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
+      button {
+        flex: 1;
+
+        mat-icon {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    margin: 40px 0;
+
+    .no-results-icon {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      color: #666;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    p {
+      color: #999;
+      margin-bottom: 20px;
+    }
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+  }
+
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px;
+    text-align: center;
+
+    p {
+      margin-top: 20px;
+      color: #666;
+      font-size: 1rem;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .movie-list-container {
+    padding: 15px;
+
+    .page-header {
+      margin-bottom: 30px;
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .filters-card {
+      .filters-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+      }
+    }
+
+    .movies-grid {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .movie-card {
+      .card-image {
+        height: 300px;
+      }
+
+      mat-card-content {
+        padding: 15px;
+
+        .movie-title {
+          font-size: 1.1rem;
+        }
+      }
+
+      mat-card-actions {
+        padding: 0 15px 15px;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-list-container {
+    .movies-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .movie-card {
+      .card-image {
+        height: 280px;
+      }
+    }
+  }
+}

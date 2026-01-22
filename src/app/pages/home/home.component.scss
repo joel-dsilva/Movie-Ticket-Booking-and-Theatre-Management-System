@@ -1,0 +1,493 @@
+.home-container {
+  padding: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+// Hero Section
+.hero-section {
+  position: relative;
+  height: 500px;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+              url('https://images.unsplash.com/photo-1489599809516-9827b6d1cf13?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  margin-bottom: 60px;
+
+  .hero-content {
+    z-index: 2;
+    position: relative;
+    padding: 0 20px;
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    .cta-button {
+      padding: 12px 32px;
+      font-size: 1rem;
+      border-radius: 50px;
+
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+// Featured Section
+.featured-section {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    color: #333;
+  }
+
+  .featured-movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+
+  .featured-movie-card {
+    transition: transform 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .featured-poster {
+      height: 350px;
+      object-fit: cover;
+    }
+
+    h3 {
+      margin: 15px 0 10px;
+      font-size: 1.3rem;
+      color: #333;
+    }
+
+    .movie-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+
+      .rating {
+        display: flex;
+        align-items: center;
+        color: #ff9800;
+
+        .star-icon {
+          font-size: 20px;
+          margin-right: 4px;
+        }
+      }
+
+      .duration {
+        color: #666;
+      }
+    }
+
+    .description {
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+  }
+}
+
+// Now Showing Section
+.now-showing-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+
+    .section-title {
+      font-size: 2rem;
+      color: #333;
+      margin: 0;
+    }
+
+    .view-all {
+      color: #3f51b5;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+  }
+
+  .movie-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+
+      .movie-overlay {
+        opacity: 1;
+      }
+    }
+
+    .movie-poster {
+      position: relative;
+      height: 350px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .movie-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+
+        button {
+          min-width: 140px;
+        }
+      }
+    }
+
+    mat-card-content {
+      padding: 20px;
+
+      h3 {
+        margin: 0 0 10px;
+        font-size: 1.1rem;
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .movie-info {
+        .genre {
+          display: block;
+          color: #666;
+          font-size: 0.85rem;
+          margin-bottom: 10px;
+          line-height: 1.4;
+        }
+
+        .rating-duration {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          .rating {
+            display: flex;
+            align-items: center;
+            color: #ff9800;
+
+            .star-icon {
+              font-size: 18px;
+              margin-right: 4px;
+            }
+          }
+
+          .duration {
+            color: #666;
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Coming Soon Section
+.coming-soon-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2rem;
+    color: #333;
+  }
+
+  .coming-soon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px;
+  }
+
+  .coming-soon-card {
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .coming-soon-poster {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+
+    mat-card-content {
+      padding: 15px;
+
+      h3 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+        color: #333;
+      }
+
+      .release-date {
+        color: #666;
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+      }
+
+      .genre-tag {
+        display: inline-block;
+        background-color: #e0e0e0;
+        color: #333;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+// Quick Booking Section
+.quick-booking-section {
+  padding: 60px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .booking-card {
+    background: linear-gradient(135deg, #3f51b5 0%, #2196f3 100%);
+    color: white;
+    border-radius: 15px;
+    overflow: hidden;
+
+    mat-card-header {
+      text-align: center;
+      padding: 30px 20px 20px;
+
+      mat-card-title {
+        font-size: 2rem;
+        margin-bottom: 8px;
+      }
+
+      mat-card-subtitle {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+      }
+    }
+
+    mat-card-content {
+      padding: 30px;
+    }
+
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      text-align: center;
+
+      .step {
+        .step-icon {
+          width: 70px;
+          height: 70px;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 20px;
+
+          mat-icon {
+            font-size: 32px;
+            color: white;
+          }
+        }
+
+        h4 {
+          font-size: 1.2rem;
+          margin-bottom: 10px;
+        }
+
+        p {
+          color: rgba(255, 255, 255, 0.9);
+          line-height: 1.5;
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+// Loading State
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100px 20px;
+  text-align: center;
+
+  p {
+    margin-top: 20px;
+    color: #666;
+    font-size: 1rem;
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .hero-section {
+    height: 400px;
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+
+    .cta-button {
+      padding: 10px 24px;
+    }
+  }
+
+  .featured-section {
+    padding: 30px 15px;
+    margin-bottom: 40px;
+
+    .section-title {
+      font-size: 1.8rem;
+    }
+
+    .featured-movies-grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  .now-showing-section {
+    padding: 40px 15px;
+
+    .section-header {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .movies-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+  }
+
+  .coming-soon-section {
+    padding: 40px 15px;
+
+    .coming-soon-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 20px;
+    }
+  }
+
+  .quick-booking-section {
+    padding: 40px 15px;
+
+    .booking-card {
+      mat-card-header {
+        padding: 20px 15px;
+
+        mat-card-title {
+          font-size: 1.8rem;
+        }
+      }
+
+      .steps-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    height: 300px;
+
+    .hero-title {
+      font-size: 1.6rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.9rem;
+    }
+  }
+
+  .movies-grid,
+  .featured-movies-grid,
+  .coming-soon-grid {
+    grid-template-columns: 1fr !important;
+  }
+}

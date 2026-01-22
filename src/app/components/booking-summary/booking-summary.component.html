@@ -1,0 +1,136 @@
+<div class="container">
+  <!-- Booking Complete -->
+  <div *ngIf="bookingComplete" class="success-screen">
+    <mat-icon class="success-icon">check_circle</mat-icon>
+    <h1>Booking Confirmed!</h1>
+    <p>Your tickets have been booked successfully</p>
+    
+    <mat-card class="booking-card">
+      <mat-card-content>
+        <div class="booking-code">
+          <strong>Booking Code:</strong>
+          <span class="code">{{bookingCode}}</span>
+        </div>
+        <div class="instructions">
+          <p><mat-icon>info</mat-icon> Show this code at the theatre counter</p>
+          <p><mat-icon>email</mat-icon> E-ticket sent to your registered email</p>
+          <p><mat-icon>schedule</mat-icon> Please arrive 30 minutes before showtime</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="printTicket()">
+        <mat-icon>print</mat-icon> Print Ticket
+      </button>
+      <button mat-button routerLink="/movies">
+        <mat-icon>movie</mat-icon> Browse More Movies
+      </button>
+    </div>
+  </div>
+
+  <!-- Booking Summary -->
+  <div *ngIf="!bookingComplete && showtime">
+    <!-- Header -->
+    <div class="header">
+      <h1>Booking Summary</h1>
+      <p>Review your booking details before confirmation</p>
+    </div>
+
+    <!-- Booking Details -->
+    <div class="details-grid">
+      <!-- Movie Info -->
+      <mat-card>
+        <mat-card-content>
+          <h3><mat-icon>movie</mat-icon> Movie Details</h3>
+          <mat-divider></mat-divider>
+          <div class="detail-item">
+            <span>Movie:</span>
+            <strong>Movie Title</strong>
+          </div>
+          <div class="detail-item">
+            <span>Format:</span>
+            <span>{{showtime.format}}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Showtime Info -->
+      <mat-card>
+        <mat-card-content>
+          <h3><mat-icon>schedule</mat-icon> Showtime</h3>
+          <mat-divider></mat-divider>
+          <div class="detail-item">
+            <span>Date:</span>
+            <strong>{{showtime.date | date:'fullDate'}}</strong>
+          </div>
+          <div class="detail-item">
+            <span>Time:</span>
+            <span>{{formatTime(showtime.startTime)}} - {{formatTime(showtime.endTime)}}</span>
+          </div>
+          <div class="detail-item">
+            <span>Screen:</span>
+            <span>{{showtime.screenNumber}}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Seat Info -->
+      <mat-card>
+        <mat-card-content>
+          <h3><mat-icon>event_seat</mat-icon> Seats</h3>
+          <mat-divider></mat-divider>
+          <div class="detail-item">
+            <span>Selected Seats:</span>
+            <div class="seats-list">
+              <span *ngFor="let seat of selectedSeats" class="seat-badge">
+                {{seat.id}}
+              </span>
+            </div>
+          </div>
+          <div class="detail-item">
+            <span>Seat Type:</span>
+            <span>{{getSeatTypes()}}</span>
+          </div>
+          <div class="detail-item">
+            <span>Total Seats:</span>
+            <span>{{selectedSeats.length}}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Price Summary -->
+      <mat-card class="price-card">
+        <mat-card-content>
+          <h3><mat-icon>payments</mat-icon> Price Summary</h3>
+          <mat-divider></mat-divider>
+          
+          <div class="price-item" *ngFor="let seat of selectedSeats">
+            <span>Seat {{seat.id}} ({{seat.type}})</span>
+            <span>${{seat.price.toFixed(2)}}</span>
+          </div>
+          
+          <mat-divider></mat-divider>
+          
+          <div class="price-total">
+            <span>Total Amount</span>
+            <span class="total-price">${{totalPrice.toFixed(2)}}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button mat-button routerLink="..">
+        <mat-icon>arrow_back</mat-icon> Back to Seats
+      </button>
+      <button mat-raised-button color="primary" 
+              (click)="confirmBooking()"
+              [disabled]="bookingInProgress">
+        <mat-icon>{{bookingInProgress ? 'hourglass_empty' : 'check_circle'}}</mat-icon>
+        {{bookingInProgress ? 'Processing...' : 'Confirm Booking'}}
+      </button>
+    </div>
+  </div>
+</div>

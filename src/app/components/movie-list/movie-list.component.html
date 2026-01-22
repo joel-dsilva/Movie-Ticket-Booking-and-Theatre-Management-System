@@ -1,0 +1,181 @@
+<p>movie-list works!</p>
+<div class="movie-list-container">
+  <!-- Header -->
+  <div class="page-header">
+    <h1>Movies</h1>
+    <p>Browse our collection of movies and book your tickets</p>
+  </div>
+
+  <!-- Filters Section -->
+  <mat-card class="filters-card">
+    <div class="filters-container">
+      <!-- Search -->
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search Movies</mat-label>
+        <input 
+          matInput 
+          [(ngModel)]="searchQuery" 
+          (ngModelChange)="filterMovies()" 
+          placeholder="Search by title or description">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <!-- Genre Filter -->
+      <mat-form-field appearance="outline">
+        <mat-label>Genre</mat-label>
+        <mat-select [(value)]="selectedGenre" (selectionChange)="filterMovies()">
+          <mat-option value="">All Genres</mat-option>
+          <mat-option *ngFor="let genre of genres" [value]="genre">
+            {{genre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Language Filter -->
+      <mat-form-field appearance="outline">
+        <mat-label>Language</mat-label>
+        <mat-select [(value)]="selectedLanguage" (selectionChange)="filterMovies()">
+          <mat-option value="">All Languages</mat-option>
+          <mat-option *ngFor="let lang of languages" [value]="lang">
+            {{lang}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Rating Filter -->
+      <mat-form-field appearance="outline">
+        <mat-label>Minimum Rating</mat-label>
+        <mat-select [(value)]="minRating" (selectionChange)="filterMovies()">
+          <mat-option *ngFor="let rating of ratings" [value]="rating">
+            {{rating === 0 ? 'Any Rating' : rating + '+ ⭐'}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Clear Filters -->
+      <button 
+        mat-stroked-button 
+        color="primary" 
+        (click)="clearFilters()"
+        class="clear-filters-btn">
+        <mat-icon>clear_all</mat-icon>
+        Clear Filters
+      </button>
+    </div>
+  </mat-card>
+
+  <!-- Results Count -->
+  <div class="results-info">
+    <p>{{filteredMovies.length}} movies found</p>
+  </div>
+
+  <!-- Movies Grid -->
+  <div class="movies-grid" *ngIf="!loading && paginatedMovies.length > 0">
+    <mat-card *ngFor="let movie of paginatedMovies" class="movie-card">
+      <div class="card-image">
+        <img [src]="movie.posterUrl" [alt]="movie.title" class="movie-poster">
+        <div class="card-overlay">
+          <button 
+            mat-icon-button 
+            color="primary" 
+            class="detail-btn"
+            (click)="viewMovieDetails(movie.id)">
+            <mat-icon>info</mat-icon>
+          </button>
+          <button 
+            mat-raised-button 
+            color="accent" 
+            class="book-btn"
+            (click)="bookTickets(movie.id)">
+            <mat-icon>local_movies</mat-icon>
+            Book Now
+          </button>
+        </div>
+        <!-- Rating Badge -->
+        <div class="rating-badge">
+          <mat-icon>star</mat-icon>
+          <span>{{movie.rating}}</span>
+        </div>
+      </div>
+      
+      <mat-card-content>
+        <h3 class="movie-title">{{movie.title}}</h3>
+        
+        <!-- Movie Meta -->
+        <div class="movie-meta">
+          <span class="duration">
+            <mat-icon>schedule</mat-icon>
+            {{formatDuration(movie.duration)}}
+          </span>
+          <span class="language">{{movie.language}}</span>
+        </div>
+        
+        <!-- Genres -->
+        <div class="genres-container">
+          <mat-chip-listbox>
+            <mat-chip *ngFor="let genre of movie.genre.slice(0, 2)" color="primary" selected>
+              {{genre}}
+            </mat-chip>
+            <mat-chip *ngIf="movie.genre.length > 2" color="accent" selected>
+              +{{movie.genre.length - 2}} more
+            </mat-chip>
+          </mat-chip-listbox>
+        </div>
+        
+        <!-- Cast -->
+        <p class="cast">
+          <strong>Cast:</strong> {{movie.cast.slice(0, 2).join(', ')}}
+          <span *ngIf="movie.cast.length > 2">...</span>
+        </p>
+        
+        <!-- Description -->
+        <p class="description">{{movie.description | slice:0:120}}...</p>
+      </mat-card-content>
+      
+      <mat-card-actions>
+        <button 
+          mat-button 
+          color="primary" 
+          (click)="viewMovieDetails(movie.id)">
+          <mat-icon>visibility</mat-icon>
+          View Details
+        </button>
+        <button 
+          mat-raised-button 
+          color="accent" 
+          (click)="bookTickets(movie.id)">
+          <mat-icon>event_seat</mat-icon>
+          Book Tickets
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- No Results -->
+  <div *ngIf="!loading && filteredMovies.length === 0" class="no-results">
+    <mat-icon class="no-results-icon">theaters</mat-icon>
+    <h3>No movies found</h3>
+    <p>Try changing your search criteria or filters</p>
+    <button mat-raised-button color="primary" (click)="clearFilters()">
+      Clear All Filters
+    </button>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="filteredMovies.length > pageSize" class="pagination-container">
+    <mat-paginator 
+      [length]="filteredMovies.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      [pageIndex]="pageIndex"
+      (page)="onPageChange($event)"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>Loading movies...</p>
+  </div>
+</div>
