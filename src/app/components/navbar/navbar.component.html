@@ -1,18 +1,18 @@
-<mat-toolbar color="primary" class="navbar">
+<mat-toolbar class="navbar">
   <!-- Logo -->
   <div class="brand" routerLink="/">
     <mat-icon>movie</mat-icon>
     <span>CineBook</span>
   </div>
 
-  <!-- Navigation without badges -->
+  <!-- Navigation -->
   <div class="nav-items">
-    <a *ngFor="let item of navItems" 
-       mat-button 
+    <a *ngFor="let item of navItems"
+       mat-button
        [routerLink]="item.path"
        routerLinkActive="active">
-      <mat-icon>{{item.icon}}</mat-icon>
-      {{item.label}}
+      <mat-icon>{{ item.icon }}</mat-icon>
+      {{ item.label }}
     </a>
   </div>
 
@@ -20,9 +20,9 @@
 
   <!-- User Section -->
   <div class="user-section">
-    <button mat-raised-button color="accent" (click)="toggleLogin()">
+    <button mat-raised-button (click)="toggleLogin()">
       <mat-icon>login</mat-icon>
-      {{isLoggedIn ? 'Logout' : 'Login'}}
+      <span>{{ isLoggedIn ? 'Logout' : 'Login' }}</span>
     </button>
   </div>
 </mat-toolbar>

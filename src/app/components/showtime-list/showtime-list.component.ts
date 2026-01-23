@@ -16,8 +16,12 @@ import { Theatre } from '../../models/theatre.model';
   selector: 'app-showtime-list',
   standalone: true,
   imports: [
-    CommonModule, RouterModule, MatCardModule,
-    MatButtonModule, MatIconModule, MatSelectModule,
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSelectModule,
     MatProgressSpinnerModule
   ],
   templateUrl: './showtime-list.component.html',
@@ -29,9 +33,11 @@ export class ShowtimeListComponent implements OnInit {
   showtimes: Showtime[] = [];
   theatres: Theatre[] = [];
   filteredShowtimes: Showtime[] = [];
+
   selectedTheatre: string = 'all';
   selectedFormat: string = 'all';
   selectedDate: string = '';
+
   loading = true;
   dates: string[] = [];
 
@@ -44,6 +50,7 @@ export class ShowtimeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.generateDates();
+
     this.route.params.subscribe(params => {
       this.movieId = +params['id'];
       this.loadData();
@@ -52,43 +59,55 @@ export class ShowtimeListComponent implements OnInit {
 
   generateDates(): void {
     const today = new Date();
+    this.dates = [];
+
     for (let i = 0; i < 7; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
       this.dates.push(date.toISOString().split('T')[0]);
     }
+
     this.selectedDate = this.dates[0];
   }
 
   loadData(): void {
+    this.loading = true;
+
     this.movieService.getMovieById(this.movieId).subscribe(movie => {
       this.movie = movie || null;
     });
 
     this.theatreService.getShowtimes(this.movieId).subscribe(showtimes => {
       this.showtimes = showtimes;
-      this.filterShowtimes();
       this.extractTheatres(showtimes);
+      this.filterShowtimes();
       this.loading = false;
     });
   }
 
   extractTheatres(showtimes: Showtime[]): void {
+    this.theatres = [];
     const theatreIds = [...new Set(showtimes.map(s => s.theatreId))];
+
     theatreIds.forEach(id => {
       this.theatreService.getTheatreById(id).subscribe(theatre => {
-        if (theatre) this.theatres.push(theatre);
+        if (theatre) {
+          this.theatres.push(theatre);
+        }
       });
     });
   }
 
   filterShowtimes(): void {
     this.filteredShowtimes = this.showtimes.filter(showtime => {
-      const matchesTheatre = this.selectedTheatre === 'all' || 
-        showtime.theatreId === +this.selectedTheatre;
-      const matchesFormat = this.selectedFormat === 'all' || 
-        showtime.format === this.selectedFormat;
+      const matchesTheatre =
+        this.selectedTheatre === 'all' || showtime.theatreId === +this.selectedTheatre;
+
+      const matchesFormat =
+        this.selectedFormat === 'all' || showtime.format === this.selectedFormat;
+
       const matchesDate = showtime.date === this.selectedDate;
+
       return matchesTheatre && matchesFormat && matchesDate;
     });
   }
@@ -101,9 +120,26 @@ export class ShowtimeListComponent implements OnInit {
     this.router.navigate(['/showtime', showtimeId, 'seats']);
   }
 
+  // 🔥 FIXED: supports "HH:mm" and ISO datetime
   formatTime(time: string): string {
-    return new Date(time).toLocaleTimeString('en-US', {
-      hour: '2-digit', minute: '2-digit'
+    if (!time) return '';
+
+    // If backend sends "HH:mm"
+    if (time.includes(':') && time.length <= 5) {
+      const [h, m] = time.split(':').map(Number);
+      const date = new Date();
+      date.setHours(h, m, 0);
+      return date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // If backend sends ISO string
+    const date = new Date(time);
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit'
     });
   }
 

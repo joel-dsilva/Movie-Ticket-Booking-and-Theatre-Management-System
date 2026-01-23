@@ -51,7 +51,7 @@ export class MovieListComponent implements OnInit {
   // Available filters
   genres = ['Action', 'Drama', 'Comedy', 'Horror', 'Sci-Fi', 'Thriller', 'Adventure', 'Romance'];
   languages = ['English', 'Hindi', 'Tamil', 'Telugu', 'Malayalam', 'Kannada'];
-  ratings = [0, 5, 6, 7, 8, 9];
+  ratings = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   constructor(
     private movieService: MovieService,
