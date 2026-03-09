@@ -11,6 +11,7 @@ import { TheatreService } from '../../services/theatre.service';
 import { Movie } from '../../models/movie.model';
 import { Showtime } from '../../models/showtime.model';
 import { Theatre } from '../../models/theatre.model';
+import { HighlightDirective } from '../../directives/highlight.directive';
 
 @Component({
   selector: 'app-showtime-list',
@@ -22,7 +23,8 @@ import { Theatre } from '../../models/theatre.model';
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    HighlightDirective
   ],
   templateUrl: './showtime-list.component.html',
   styleUrls: ['./showtime-list.component.scss']
