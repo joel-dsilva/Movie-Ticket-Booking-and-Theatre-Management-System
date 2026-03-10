@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npx ng build --configuration production --base-href "/-Movie-Ticket-Booking-and-Theatre-Management-System/"
+        run: npx ng build --configuration production --base-href "/Movie-Ticket-Booking-and-Theatre-Management-System/"
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
