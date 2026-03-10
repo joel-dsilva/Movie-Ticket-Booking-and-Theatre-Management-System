@@ -68,7 +68,7 @@
 
     <!-- Showtimes Grid -->
     <div class="showtimes-grid">
-      <mat-card *ngFor="let showtime of filteredShowtimes" class="showtime-card">
+      <mat-card *ngFor="let showtime of filteredShowtimes" class="showtime-card" [appHighlight]="showtime.format">
         <mat-card-content>
           <div class="showtime-header">
             <h3>{{getTheatreName(showtime.theatreId)}}</h3>

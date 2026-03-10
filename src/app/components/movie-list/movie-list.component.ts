@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { MovieService } from '../../services/movie.service';
+import { MovieFilterPipe } from '../../pipes/movie-filter.pipe';
 import { Movie } from '../../models/movie.model';
 
 @Component({
@@ -27,7 +28,8 @@ import { Movie } from '../../models/movie.model';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    MatChipsModule
+    MatChipsModule,
+    MovieFilterPipe,
   ],
   templateUrl: './movie-list.component.html',
   styleUrls: ['./movie-list.component.scss']

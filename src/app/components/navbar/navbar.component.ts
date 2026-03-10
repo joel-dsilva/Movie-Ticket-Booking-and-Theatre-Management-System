@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,10 +24,10 @@ import { MatMenuModule } from '@angular/material/menu';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  isLoggedIn = false;
+
   username = 'John Doe';
   bookingCount = 2;
-  
+
   navItems = [
     { label: 'Home', path: '/', icon: 'home' },
     { label: 'Movies', path: '/movies', icon: 'movie' },
@@ -32,7 +35,20 @@ export class NavbarComponent {
     { label: 'My Bookings', path: '/my-bookings', icon: 'confirmation_number' }
   ];
 
-  toggleLogin() {
-    this.isLoggedIn = !this.isLoggedIn;
+  constructor(private authService: AuthService) {}
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
+
+  toggleLogin() {
+
+    if (this.isLoggedIn) {
+      this.authService.logout();
+    } else {
+      this.authService.login();
+    }
+
+  }
+
 }
