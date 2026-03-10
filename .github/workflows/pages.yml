@@ -1,5 +1,4 @@
 name: Deploy Angular to GitHub Pages
-
 on:
   push:
     branches: ["main"]
@@ -7,8 +6,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: "pages"
@@ -17,28 +14,20 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-
       - name: Install dependencies
         run: npm ci
-
-      # Build for GitHub Pages (project site needs base-href = /<repo>/)
       - name: Build
         run: npx ng build --configuration production --base-href "/-Movie-Ticket-Booking-and-Theatre-Management-System/"
-
       - name: Configure Pages
         uses: actions/configure-pages@v5
-
-      # Angular (with @angular/build:application) outputs to: dist/<project>/browser
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -47,10 +36,12 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    permissions:          # ← THIS WAS MISSING
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
